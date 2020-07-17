@@ -36,8 +36,8 @@ In 'yolo/onnx_to_tensorrt.py' line 2, you can choose precision mode.
 |---|:---:|---:|---:| ---:|
 | Step 1 | FP32 | 256mb | 24 | 1.29 GB |
 | Step 2 | FP32 | 8GB | 24 | 1.31 GB |
-| Step 3 | FP16 | 8GB | 38 |
-| Step 4 | INT8 | 8GB | 38 |
+| Step 3 | FP16 | 8GB | 30 | 0.95 GB
+| Step 4 | INT8 | 8GB | - |
 
 
 
