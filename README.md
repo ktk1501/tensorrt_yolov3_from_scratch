@@ -7,7 +7,7 @@ YOLOv3
 # yolov3 tensorrt video inference
 ## yolov3_to_onnx
 I forked a great repo of tensorrt demos, and customized it only for yolov3 inference.
-I copied official sample in TensorRT 7.0.0.11, 'TensorRt-7.0.0.11/samples/python/yolov3_onnx/yolov3_to_onnx.py' because there were some issues on the forked files.
+I used official sample in TensorRT 7.0.0.11, 'TensorRt-7.0.0.11/samples/python/yolov3_onnx/yolov3_to_onnx.py' because there were some issues on the forked files.
 Convert yolov3 darknet based model to onnx.
 
 ## onnx_to_tensorrt
@@ -24,12 +24,17 @@ convert onnx to trt model.
 ## Step 1 : default setting
 
 ## Step 2 : increase max_workspace_size
-I increased the 'MAX_WORKSPACE_SIZE_ORDER' from 28 to 33, which is 256mb to 8gb. (2^order) It is in 'yolo/onnx_to_tensorrt.py' line 1.
+I increased the 'max_workspace_size' from 28 to 33, which is 256mb to 8gb. (2^order) 
 
 ## Step 3 : FP16 precision
-In 'yolo/onnx_to_tensorrt.py' line 2, you can choose precision mode.
+In 'onnx_to_tensorrt.py', you can choose precision mode by adding
+```python
+builder.fp16_mode = True
+```
+in 'build_engine()' function
 
 ## Step 4 : INT8 precision
+Must have a custom calibrator. Need to be updated. 
 
 ## Results
 |  | precision mode | max_workspace_size | FPS | Actually Allocated GPU Memory
