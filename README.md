@@ -10,8 +10,7 @@ Examples demonstrating how to optimize caffe/tensorflow/darknet models with Tens
 * All demos work on Jetson TX2, AGX Xavier, Xavier NX ([link](https://github.com/jkjung-avt/tensorrt_demos/issues/19#issue-517897927) and [link](https://github.com/jkjung-avt/tensorrt_demos/issues/30)), and run much faster!
 * Furthermore, all demos should work on x86_64 PC with NVIDIA GPU(s) as well.  Some minor tweaks would be needed.  Please refer to [README_x86.md](https://github.com/jkjung-avt/tensorrt_demos/blob/master/README_x86.md) for more information.
 
-<a name="YOLOv3"></a>
-Demo #4: YOLOv3
+Demo: YOLOv3
 ---------------
 
 Along the same line as Demo #3, this demo showcases how to convert pre-trained YOLOv3 models through ONNX to TensorRT engines.  This demo also requires TensorRT "Python API" and has been verified working against TensorRT 5.x+.
@@ -85,58 +84,3 @@ Assuming this repository has been cloned at "${HOME}/project/tensorrt_demos", fo
    * [Verifying mAP of TensorRT Optimized SSD and YOLOv3 Models](https://jkjung-avt.github.io/trt-detection-map/)
    * For adapting the code to your own custom trained YOLOv3 models: [TensorRT YOLOv3 For Custom Trained Models](https://jkjung-avt.github.io/trt-yolov3-custom/)
 
-<a name="YOLOv4"></a>
-Demo #5: YOLOv4
----------------
-
-Following up on Demo #4, this demo is for YOLOv4 models.  Code for this demo has only been tested with TensorRT 7.1 (JetPack-4.4) so far.
-
-Here are the steps:
-
-1. Install "pycuda" and "onnx==1.4.1".  Refer to steps 1 and 2 in Demo #4 for details.
-
-2. Download the pre-trained YOLOv4 COCO models and convert, say, "yolov4-416" to a TensorRT engine.
-
-   ```shell
-   $ cd ${HOME}/project/tensorrt_demos/yolo
-   $ ./download_yolov4.sh
-   $ python3 yolo_to_onnx.py --model yolov4-416
-   $ python3 onnx_to_tensorrt.py --model yolov4-416
-   ```
-
-   The last step ("onnx_to_tensorrt.py") would take quite a while.  When that is done, the optimized TensorRT engine would be saved as "yolov4-416.trt".
-
-3. Test the YOLOv4 TensorRT engine with the "dog.jpg" image.
-
-   ```shell
-   $ wget https://raw.githubusercontent.com/pjreddie/darknet/master/data/dog.jpg -O ${HOME}/Pictures/dog.jpg
-   $ python3 trt_yolo.py --model yolov4-416 \
-                         --image --filename ${HOME}/Pictures/dog.jpg
-   ```
-
-4. (Optional) Test the YOLOv4 TensorRT engine with other kinds of video inputs.  Refer to step 5 in Demo #4.
-
-5. Use "eval_yolo.py" to evaluate mAP of the optimized YOLOv4 engines.
-
-   ```shell
-   $ python3 eval_yolo.py --model yolov4-288
-   $ python3 eval_yolo.py --model yolov4-416
-   $ python3 eval_yolo.py --model yolov4-608
-   ```
-
-   The results are summarized as follows.  Note the FPS (frames per second) numbers were measured on my Jetson Nano DevKit with JetPack-4.4.
-
-   | TensorRT engine        | mAP @<br>IoU=0.5:0.95 |  mAP @<br>IoU=0.5  | FPS on Nano |
-   |:-----------------------|:---------------------:|:------------------:|:-----------:|
-   | yolov4-288 (FP16)      |          0.372        |        0.590       |     6.18    |
-   | yolov4-416 (FP16)      |          0.454        |        0.698       |     3.50    |
-   | yolov4-608 (FP16)      |          0.484        |        0.735       |     1.77    |
-
-6. (TODO: support of "yolov4-tiny" models...)
-
-7. (TODO: blog posts...)
-
-Licenses
---------
-
-I referenced source code of [NVIDIA/TensorRT](https://github.com/NVIDIA/TensorRT) samples to develop most of the demos in this repository.  Those NVIDIA samples are under [Apache License 2.0](https://github.com/NVIDIA/TensorRT/blob/master/LICENSE).
